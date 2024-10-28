@@ -2,6 +2,7 @@ package com.britannio.urlshort.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.britannio.urlshort.data.UrlData
 
 class RealUrlApi(private val apiKey: String) {
     private val api = Retrofit.Builder()
@@ -19,8 +20,13 @@ class RealUrlApi(private val apiKey: String) {
         return response.shortURL
     }
 
-    suspend fun getUrls(): List<String> {
-        // This will be implemented later
-        return emptyList()
+    suspend fun getUrls(): List<UrlData> {
+        val response = api.getLinks(apiKey)
+        return response.links.map { link ->
+            UrlData(
+                originalUrl = link.originalURL,
+                shortenedUrl = link.shortURL
+            )
+        }
     }
 }
