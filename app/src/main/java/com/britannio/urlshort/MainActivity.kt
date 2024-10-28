@@ -187,10 +187,7 @@ fun UrlShortenerScreen(
     val error by viewModel.error.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     
-    // Get the TopAppBar color from the same source as the TopAppBar itself
-    val appBarColor = TopAppBarDefaults.smallTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primaryContainer
-    ).containerColor(scrollFraction = 0f).value.toArgb()
+    val appBarColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
     
     DisposableEffect(Unit) {
         val window = (context as ComponentActivity).window
