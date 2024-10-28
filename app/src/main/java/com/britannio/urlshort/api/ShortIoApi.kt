@@ -14,6 +14,7 @@ interface ShortIoApi {
 
     @GET("api/links")
     suspend fun getLinks(
+        @Query("domain_id") domainId: Int = 668301,
         @Query("limit") limit: Int = 30,
         @Query("dateSortOrder") dateSortOrder: String = "desc"
     ): GetLinksResponse
@@ -22,7 +23,8 @@ interface ShortIoApi {
 data class ShortenUrlRequest(
     val domain: String = "britann.io",
     val originalURL: String,
-    val path: String?
+    val path: String?,
+    val domain_id: Int = 668301
 )
 
 data class ShortenUrlResponse(
