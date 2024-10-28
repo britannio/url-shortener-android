@@ -187,19 +187,6 @@ fun UrlShortenerScreen(
     val error by viewModel.error.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     
-    val appBarColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
-    
-    DisposableEffect(Unit) {
-        val window = (context as ComponentActivity).window
-        window.statusBarColor = appBarColor
-        window.navigationBarColor = appBarColor
-        
-        onDispose {
-            window.statusBarColor = appBarColor
-            window.navigationBarColor = appBarColor
-        }
-    }
-    
     LaunchedEffect(error) {
         error?.let {
             snackbarHostState.showSnackbar(message = it)
