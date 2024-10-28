@@ -5,8 +5,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.britannio.urlshort.data.UrlData
 import okhttp3.OkHttpClient
 import okhttp3.Interceptor
+import okhttp3.logging.HttpLoggingInterceptor
+import android.util.Log
 
 class RealUrlApi(private val apiKey: String) {
+    private val loggingInterceptor = HttpLoggingInterceptor { message ->
+        Log.d("API_DEBUG", message)
+    }.apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(Interceptor { chain ->
             val request = chain.request().newBuilder()
@@ -15,6 +23,7 @@ class RealUrlApi(private val apiKey: String) {
                 .build()
             chain.proceed(request)
         })
+        .addInterceptor(loggingInterceptor)
         .build()
 
     private val api = Retrofit.Builder()
