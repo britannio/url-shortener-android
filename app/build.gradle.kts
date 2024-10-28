@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -21,9 +24,9 @@ android {
         }
         
         val secretPropertiesFile = rootProject.file("secret.properties")
-        val secretProperties = java.util.Properties()
+        val secretProperties = Properties()
         if (secretPropertiesFile.exists()) {
-            secretProperties.load(secretPropertiesFile.inputStream())
+            secretProperties.load(FileInputStream(secretPropertiesFile))
         }
         buildConfigField("String", "SHORT_IO_API_KEY", "\"${secretProperties.getProperty("short.io.api.key", "")}\"")
     }
