@@ -131,11 +131,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // Check clipboard for URL and prefill if found
-        getUrlFromClipboard()?.let { url ->
-            viewModel.onUrlInputChange(url)
-        }
-
         // Handle shared URLs
         handleIntent()
     }
@@ -186,6 +181,12 @@ fun UrlShortenerScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    
+    LaunchedEffect(Unit) {
+        (context as MainActivity).getUrlFromClipboard()?.let { url ->
+            viewModel.onUrlInputChange(url)
+        }
+    }
     
     LaunchedEffect(error) {
         error?.let {
