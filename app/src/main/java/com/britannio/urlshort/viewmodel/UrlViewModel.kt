@@ -42,7 +42,7 @@ class UrlViewModel(
             _isLoading.value = true
             try {
                 val shortenedUrl = urlApi.shortenUrl(urlInput, pathInput)
-                urlDao.insert(UrlData(originalUrl = urlInput, shortenedUrl = shortenedUrl))
+                urlDao.insert(UrlData(originalUrl = urlInput, shortPath = pathInput, shortenedUrl = shortenedUrl))
                 urlInput = ""
                 pathInput = ""
                 refreshUrls()
