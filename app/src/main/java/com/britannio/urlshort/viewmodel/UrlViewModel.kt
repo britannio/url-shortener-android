@@ -66,6 +66,10 @@ class UrlViewModel(
         }
     }
 
+    fun clearError() {
+        _error.value = null
+    }
+
     fun refreshUrls() {
         viewModelScope.launch {
             _isLoading.value = true

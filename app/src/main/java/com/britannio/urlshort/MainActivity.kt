@@ -32,6 +32,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -149,6 +152,15 @@ fun UrlShortenerScreen(
 ) {
     val urls by viewModel.urls.collectAsState(initial = emptyList())
     val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    
+    LaunchedEffect(error) {
+        error?.let {
+            snackbarHostState.showSnackbar(message = it)
+            viewModel.clearError()
+        }
+    }
     
     Scaffold(
         topBar = {
@@ -159,7 +171,8 @@ fun UrlShortenerScreen(
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         Box(
             modifier = Modifier
