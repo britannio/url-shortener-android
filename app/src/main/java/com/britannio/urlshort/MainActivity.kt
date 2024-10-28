@@ -223,7 +223,13 @@ fun UrlShortenerScreen(
                 }
                 
                 Spacer(modifier = Modifier.height(16.dp))
-                
+
+                Text(
+                    text = "${urls.size} URLs",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+
                 LazyColumn {
                     items(urls) { url ->
                         UrlItem(
