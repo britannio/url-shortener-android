@@ -59,21 +59,27 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun getUrlFromClipboard(): String? {
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = clipboard.primaryClip
-        if (clip != null && clip.itemCount > 0) {
-            val text = clip.getItemAt(0).text?.toString()
-            Log.d("Clipboard", "Found text in clipboard: $text")
-            if (text != null && URLUtil.isValidUrl(text)) {
-                Log.d("Clipboard", "Valid URL found in clipboard")
-                return text
+        return try {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = clipboard.primaryClip
+            if (clip != null && clip.itemCount > 0) {
+                val text = clip.getItemAt(0).text?.toString()
+                Log.d("Clipboard", "Found text in clipboard: $text")
+                if (text != null && URLUtil.isValidUrl(text)) {
+                    Log.d("Clipboard", "Valid URL found in clipboard")
+                    text
+                } else {
+                    Log.d("Clipboard", "Text in clipboard is not a valid URL")
+                    null
+                }
             } else {
-                Log.d("Clipboard", "Text in clipboard is not a valid URL")
+                Log.d("Clipboard", "No text found in clipboard")
+                null
             }
-        } else {
-            Log.d("Clipboard", "No text found in clipboard")
+        } catch (e: SecurityException) {
+            Log.d("Clipboard", "Cannot access clipboard: ${e.message}")
+            null
         }
-        return null
     }
 
     private val viewModel: UrlViewModel by viewModels {
