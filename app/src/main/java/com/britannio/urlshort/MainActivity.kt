@@ -1,6 +1,9 @@
 package com.britannio.urlshort
 
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
+import android.webkit.URLUtil
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -21,6 +24,18 @@ import com.britannio.urlshort.ui.theme.UrlshortTheme
 import com.britannio.urlshort.viewmodel.UrlViewModel
 
 class MainActivity : ComponentActivity() {
+    private fun getUrlFromClipboard(): String? {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = clipboard.primaryClip
+        if (clip != null && clip.itemCount > 0) {
+            val text = clip.getItemAt(0).text?.toString()
+            if (text != null && URLUtil.isValidUrl(text)) {
+                return text
+            }
+        }
+        return null
+    }
+
     private val viewModel: UrlViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -38,6 +53,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Check clipboard for URL and prefill if found
+        getUrlFromClipboard()?.let { url ->
+            viewModel.onUrlInputChange(url)
+        }
+
         setContent {
             UrlshortTheme {
                 Surface(
