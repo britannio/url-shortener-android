@@ -147,7 +147,7 @@ fun UrlShortenerScreen(
     viewModel: UrlViewModel,
     onCopy: (String) -> Unit
 ) {
-    val urls by viewModel.urls.collectAsState()
+    val urls by viewModel.urls.collectAsState(initial = emptyList())
     val isLoading by viewModel.isLoading.collectAsState()
     
     Scaffold(
