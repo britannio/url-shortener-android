@@ -170,63 +170,64 @@ fun UrlShortenerScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
-        ) {
-            TextField(
-                value = viewModel.urlInput,
-                onValueChange = viewModel::onUrlInputChange,
-                label = { Text("Enter URL") },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = !isLoading
-            )
-            
-            Spacer(modifier = Modifier.height(8.dp))
-            
-            TextField(
-                value = viewModel.pathInput,
-                onValueChange = viewModel::onPathInputChange,
-                label = { Text("Custom path (optional)") },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = !isLoading
-            )
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Button(
-                    onClick = viewModel::shortenUrl,
+                TextField(
+                    value = viewModel.urlInput,
+                    onValueChange = viewModel::onUrlInputChange,
+                    label = { Text("Enter URL") },
+                    modifier = Modifier.fillMaxWidth(),
                     enabled = !isLoading
+                )
+                
+                Spacer(modifier = Modifier.height(8.dp))
+                
+                TextField(
+                    value = viewModel.pathInput,
+                    onValueChange = viewModel::onPathInputChange,
+                    label = { Text("Custom path (optional)") },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
+                )
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Shorten URL")
+                    Button(
+                        onClick = viewModel::shortenUrl,
+                        enabled = !isLoading
+                    ) {
+                        Text("Shorten URL")
+                    }
+                    Button(
+                        onClick = viewModel::refreshUrls,
+                        enabled = !isLoading
+                    ) {
+                        Text("Refresh")
+                    }
                 }
-                Button(
-                    onClick = viewModel::refreshUrls,
-                    enabled = !isLoading
-                ) {
-                    Text("Refresh")
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                LazyColumn {
+                    items(urls) { url ->
+                        UrlItem(
+                            url = url,
+                            onCopy = onCopy
+                        )
+                    }
                 }
             }
             
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            LazyColumn {
-                items(urls) { url ->
-                    UrlItem(
-                        url = url,
-                        onCopy = onCopy
-                    )
-                }
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .size(50.dp)
+                        .align(Alignment.Center)
+                )
             }
-        }
-        
-        if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .size(50.dp)
-                    .align(Alignment.Center)
-            )
         }
     }
 }
