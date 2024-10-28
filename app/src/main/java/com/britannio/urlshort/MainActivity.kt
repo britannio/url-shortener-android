@@ -1,5 +1,6 @@
 package com.britannio.urlshort
 
+import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
@@ -35,6 +36,12 @@ import com.britannio.urlshort.ui.theme.UrlshortTheme
 import com.britannio.urlshort.viewmodel.UrlViewModel
 
 class MainActivity : ComponentActivity() {
+    private fun copyToClipboard(text: String) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Shortened URL", text)
+        clipboard.setPrimaryClip(clip)
+    }
+
     private fun getUrlFromClipboard(): String? {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = clipboard.primaryClip
@@ -153,7 +160,10 @@ fun UrlShortenerScreen(viewModel: UrlViewModel) {
             
             LazyColumn {
                 items(urls) { url ->
-                    UrlItem(url)
+                    UrlItem(
+                        url = url,
+                        onCopy = { text -> copyToClipboard(text) }
+                    )
                 }
             }
         }
@@ -168,12 +178,14 @@ fun UrlShortenerScreen(viewModel: UrlViewModel) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UrlItem(url: UrlData) {
+fun UrlItem(url: UrlData, onCopy: (String) -> Unit = {}) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp)
+            .padding(vertical = 4.dp),
+        onClick = { onCopy(url.shortenedUrl) }
     ) {
         Column(
             modifier = Modifier
