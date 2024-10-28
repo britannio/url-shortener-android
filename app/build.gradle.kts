@@ -20,7 +20,12 @@ android {
             useSupportLibrary = true
         }
         
-        buildConfigField("String", "SHORT_IO_API_KEY", "\"${project.findProperty("short.io.api.key") ?: ""}\"")
+        val secretPropertiesFile = rootProject.file("secret.properties")
+        val secretProperties = java.util.Properties()
+        if (secretPropertiesFile.exists()) {
+            secretProperties.load(secretPropertiesFile.inputStream())
+        }
+        buildConfigField("String", "SHORT_IO_API_KEY", "\"${secretProperties.getProperty("short.io.api.key", "")}\"")
     }
 
     buildTypes {
