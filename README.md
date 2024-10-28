@@ -5,7 +5,7 @@ A native Android front-end for britann.io, my personal url shortener powered by 
 All features were implemented via [Aider](https://aider.chat) in ~3hrs at a cost of $3.43
 in Anthropic credits.
 
-![App Screenshot](https://raw.githubusercontent.com/britannio/url-shortener-android/main/public/screenshot.png)
+<img src="https://raw.githubusercontent.com/britannio/url-shortener-android/main/public/screenshot.png" width="200" alt="App Screenshot"/>
 
 ## Features
 
