@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
         clipboard.setPrimaryClip(clip)
     }
 
-    private fun getUrlFromClipboard(): String? {
+    internal fun getUrlFromClipboard(): String? {
         return try {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = clipboard.primaryClip
