@@ -29,6 +29,10 @@ android {
             secretProperties.load(FileInputStream(secretPropertiesFile))
         }
         buildConfigField("String", "SHORT_IO_API_KEY", "\"${secretProperties.getProperty("short.io.api.key", "")}\"")
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
 
     buildTypes {
@@ -60,9 +64,9 @@ android {
         }
     }
 
-    room {
-        schemaLocation("$projectDir/schemas")
-    }
+//    room {
+//        schemaLocation("$projectDir/schemas")
+//    }
 }
 
 dependencies {
