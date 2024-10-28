@@ -188,17 +188,20 @@ fun UrlShortenerScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    
+    // Extract colors before using them in DisposableEffect
+    val primaryContainerColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
+    val backgroundColor = MaterialTheme.colorScheme.background.toArgb()
 
     DisposableEffect(Unit) {
         val window = (context as ComponentActivity).window
-        val color = MaterialTheme.colorScheme.primaryContainer.toArgb()
-        window.statusBarColor = color
-        window.navigationBarColor = color
+        window.statusBarColor = primaryContainerColor
+        window.navigationBarColor = primaryContainerColor
         
         onDispose {
             // Reset to default colors when screen is disposed
-            window.statusBarColor = MaterialTheme.colorScheme.background.toArgb()
-            window.navigationBarColor = MaterialTheme.colorScheme.background.toArgb()
+            window.statusBarColor = backgroundColor
+            window.navigationBarColor = backgroundColor
         }
     }
     
