@@ -126,7 +126,7 @@ fun UrlShortenerScreen(viewModel: UrlViewModel) {
         topBar = {
             TopAppBar(
                 title = { Text("britann.io") },
-                colors = TopAppBarDefaults.topAppBarColors(
+                colors = TopAppBarDefaults.smallTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
