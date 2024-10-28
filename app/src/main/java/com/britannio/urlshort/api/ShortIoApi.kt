@@ -9,13 +9,11 @@ import retrofit2.http.Query
 interface ShortIoApi {
     @POST("links")
     suspend fun shortenUrl(
-        @Header("Authorization") apiKey: String,
         @Body request: ShortenUrlRequest
     ): ShortenUrlResponse
 
     @GET("api/links")
     suspend fun getLinks(
-        @Header("Authorization") apiKey: String,
         @Query("limit") limit: Int = 30,
         @Query("dateSortOrder") dateSortOrder: String = "desc"
     ): GetLinksResponse

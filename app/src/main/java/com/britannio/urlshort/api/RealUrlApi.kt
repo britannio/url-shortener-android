@@ -36,7 +36,7 @@ class RealUrlApi(private val apiKey: String) {
                 originalURL = originalUrl,
                 path = path.takeIf { !it.isNullOrBlank() }
             )
-            val response = api.shortenUrl(apiKey, request)
+            val response = api.shortenUrl(request)
             return response.shortURL
         } catch (e: Exception) {
             throw when {
@@ -50,7 +50,7 @@ class RealUrlApi(private val apiKey: String) {
 
     suspend fun getUrls(): List<UrlData> {
         try {
-            val response = api.getLinks(apiKey)
+            val response = api.getLinks()
             return response.links.map { link ->
                 UrlData(
                     originalUrl = link.originalURL,
