@@ -73,7 +73,8 @@ class RealUrlApi(private val apiKey: String) {
                 UrlData(
                     originalUrl = link.originalURL,
                     shortPath = link.path,
-                    shortenedUrl = link.shortURL
+                    shortenedUrl = link.shortURL,
+                    updatedAt = link.updatedAt
                 )
             }
         } catch (e: Exception) {

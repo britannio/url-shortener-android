@@ -43,5 +43,6 @@ data class LinkInfo(
     val originalURL: String,
     val shortURL: String,
     val path: String,
-    val createdAt: String
+    val createdAt: String,
+    val updatedAt: String
 )
