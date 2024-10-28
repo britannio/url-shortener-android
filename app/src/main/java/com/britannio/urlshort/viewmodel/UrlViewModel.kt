@@ -48,6 +48,7 @@ class UrlViewModel(
             dao.insertUrl(shortened)
             urlInput = ""
             pathInput = ""
+            refreshUrls()
         }
     }
 
