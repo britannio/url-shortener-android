@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import android.webkit.URLUtil
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,6 +39,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -122,7 +126,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     UrlShortenerScreen(
                         viewModel = viewModel,
-                        onCopy = onCopy
+                        onCopy = onCopy,
+                        context = this
                     )
                 }
             }
@@ -176,12 +181,26 @@ fun UrlItem(url: UrlData, onCopy: (String) -> Unit = {}) {
 @Composable
 fun UrlShortenerScreen(
     viewModel: UrlViewModel,
-    onCopy: (String) -> Unit
+    onCopy: (String) -> Unit,
+    context: Context
 ) {
     val urls by viewModel.urls.collectAsState(initial = emptyList())
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    DisposableEffect(Unit) {
+        val window = (context as ComponentActivity).window
+        val color = MaterialTheme.colorScheme.primaryContainer.toArgb()
+        window.statusBarColor = color
+        window.navigationBarColor = color
+        
+        onDispose {
+            // Reset to default colors when screen is disposed
+            window.statusBarColor = MaterialTheme.colorScheme.background.toArgb()
+            window.navigationBarColor = MaterialTheme.colorScheme.background.toArgb()
+        }
+    }
     
     LaunchedEffect(error) {
         error?.let {
