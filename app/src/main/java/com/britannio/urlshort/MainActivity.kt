@@ -49,6 +49,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UrlShortenerScreen(viewModel: UrlViewModel) {
     val urls by viewModel.urls.collectAsState()
