@@ -25,6 +25,7 @@ class RealUrlApi(private val apiKey: String) {
         return response.links.map { link ->
             UrlData(
                 originalUrl = link.originalURL,
+                shortPath = link.path ?: "",
                 shortenedUrl = link.shortURL
             )
         }
