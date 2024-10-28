@@ -2,6 +2,7 @@ package com.britannio.urlshort
 
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.webkit.URLUtil
 import androidx.activity.ComponentActivity
@@ -51,12 +52,29 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun handleIntent() {
+        when (intent?.action) {
+            Intent.ACTION_SEND -> {
+                if (intent.type == "text/plain") {
+                    intent.getStringExtra(Intent.EXTRA_TEXT)?.let { sharedText ->
+                        if (URLUtil.isValidUrl(sharedText)) {
+                            viewModel.onUrlInputChange(sharedText)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Check clipboard for URL and prefill if found
         getUrlFromClipboard()?.let { url ->
             viewModel.onUrlInputChange(url)
         }
+
+        // Handle shared URLs
+        handleIntent()
 
         setContent {
             UrlshortTheme {
