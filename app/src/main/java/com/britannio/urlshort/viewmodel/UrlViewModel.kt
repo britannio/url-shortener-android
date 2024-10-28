@@ -26,7 +26,20 @@ class UrlViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
+    private val _error = MutableStateFlow<String?>(null)
+    val error = _error.asStateFlow()
+
     val urls = urlDao.getAll()
+
+    private fun handleApiError(error: RealUrlApi.ApiError) {
+        val message = when (error) {
+            is RealUrlApi.ApiError.NetworkError -> "Network error. Please check your connection."
+            is RealUrlApi.ApiError.InvalidUrlError -> "Invalid URL provided."
+            is RealUrlApi.ApiError.ServerError -> "Server error. Please try again later."
+            is RealUrlApi.ApiError.UnknownError -> "An unexpected error occurred: ${error.message}"
+        }
+        _error.value = message
+    }
 
     fun onUrlInputChange(url: String) {
         urlInput = url
@@ -45,8 +58,8 @@ class UrlViewModel(
                 urlInput = ""
                 pathInput = ""
                 refreshUrls()
-            } catch (e: Exception) {
-                // Handle error
+            } catch (e: RealUrlApi.ApiError) {
+                handleApiError(e)
             } finally {
                 _isLoading.value = false
             }
@@ -60,8 +73,8 @@ class UrlViewModel(
                 val urls = urlApi.getUrls()
                 urlDao.deleteAll()
                 urlDao.insertAll(urls)
-            } catch (e: Exception) {
-                // Handle error
+            } catch (e: RealUrlApi.ApiError) {
+                handleApiError(e)
             } finally {
                 _isLoading.value = false
             }
