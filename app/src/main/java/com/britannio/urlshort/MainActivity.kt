@@ -46,6 +46,8 @@ import com.britannio.urlshort.ui.theme.UrlshortTheme
 import com.britannio.urlshort.viewmodel.UrlViewModel
 
 class MainActivity : ComponentActivity() {
+    private val onCopy: (String) -> Unit = { text -> copyToClipboard(text) }
+
     private fun copyToClipboard(text: String) {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("Shortened URL", text)
@@ -213,7 +215,7 @@ fun UrlShortenerScreen(
                 items(urls) { url ->
                     UrlItem(
                         url = url,
-                        onCopy = { text -> copyToClipboard(text) }
+                        onCopy = onCopy
                     )
                 }
             }
