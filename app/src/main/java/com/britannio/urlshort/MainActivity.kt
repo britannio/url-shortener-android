@@ -140,6 +140,7 @@ fun UrlItem(url: UrlData, onCopy: (String) -> Unit = {}) {
         ) {
             Text(text = "Original: ${url.originalUrl}")
             Text(text = "Shortened: ${url.shortenedUrl}")
+            Text(text = "Updated: ${url.updatedAt}")
         }
     }
 }
