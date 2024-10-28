@@ -146,9 +146,21 @@ fun UrlItem(url: UrlData, onCopy: (String) -> Unit = {}) {
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            Text(text = "Original: ${url.originalUrl}")
-            Text(text = "Shortened: ${url.shortenedUrl}")
-            Text(text = "Updated: ${url.updatedAt}")
+            Text(
+                text = url.shortenedUrl,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                )
+            )
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+            Text(
+                text = url.originalUrl,
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }
