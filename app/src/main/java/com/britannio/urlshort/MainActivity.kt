@@ -109,7 +109,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    UrlShortenerScreen(viewModel)
+                    UrlShortenerScreen(
+                        viewModel = viewModel,
+                        onCopy = onCopy
+                    )
                 }
             }
         }
@@ -138,7 +141,10 @@ fun UrlItem(url: UrlData, onCopy: (String) -> Unit = {}) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UrlShortenerScreen(viewModel: UrlViewModel) {
+fun UrlShortenerScreen(
+    viewModel: UrlViewModel,
+    onCopy: (String) -> Unit
+) {
     val urls by viewModel.urls.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     
