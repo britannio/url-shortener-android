@@ -11,6 +11,7 @@ class RealUrlApi(private val apiKey: String) {
         .addInterceptor(Interceptor { chain ->
             val request = chain.request().newBuilder()
                 .addHeader("Authorization", apiKey)
+                .addHeader("accept", "application/json")
                 .build()
             chain.proceed(request)
         })
