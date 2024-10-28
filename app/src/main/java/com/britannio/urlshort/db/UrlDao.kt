@@ -7,11 +7,14 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UrlDao {
     @Query("SELECT * FROM urldata ORDER BY createdAt DESC")
-    fun getAllUrls(): Flow<List<UrlData>>
+    fun getAll(): Flow<List<UrlData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUrl(url: UrlData)
+    suspend fun insert(url: UrlData)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUrls(urls: List<UrlData>)
+    suspend fun insertAll(urls: List<UrlData>)
+
+    @Query("DELETE FROM urldata")
+    suspend fun deleteAll()
 }
