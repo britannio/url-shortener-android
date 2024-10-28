@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
-import com.britannio.urlshort.api.MockUrlApi
+import com.britannio.urlshort.api.RealUrlApi
 import com.britannio.urlshort.data.UrlData
 import com.britannio.urlshort.db.UrlDatabase
 import com.britannio.urlshort.ui.theme.UrlshortTheme
@@ -29,7 +29,9 @@ class MainActivity : ComponentActivity() {
                     UrlDatabase::class.java,
                     "url_database"
                 ).build()
-                return UrlViewModel(MockUrlApi(), database.urlDao()) as T
+                // Read API key from BuildConfig
+                val apiKey = BuildConfig.SHORT_IO_API_KEY
+                return UrlViewModel(RealUrlApi(apiKey), database.urlDao()) as T
             }
         }
     }
