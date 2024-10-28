@@ -16,7 +16,8 @@ interface ShortIoApi {
     suspend fun getLinks(
         @Query("domain_id") domainId: Int = 668301,
         @Query("limit") limit: Int = 30,
-        @Query("dateSortOrder") dateSortOrder: String = "desc"
+        @Query("dateSortOrder") dateSortOrder: String = "desc",
+        @Query("pageToken") pageToken: String? = null
     ): GetLinksResponse
 }
 

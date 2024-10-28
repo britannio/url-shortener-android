@@ -60,8 +60,16 @@ class RealUrlApi(private val apiKey: String) {
 
     suspend fun getUrls(): List<UrlData> {
         try {
-            val response = api.getLinks()
-            return response.links.map { link ->
+            val allLinks = mutableListOf<LinkInfo>()
+            var nextPageToken: String? = null
+            
+            do {
+                val response = api.getLinks(pageToken = nextPageToken)
+                allLinks.addAll(response.links)
+                nextPageToken = response.nextPageToken
+            } while (nextPageToken != null)
+
+            return allLinks.map { link ->
                 UrlData(
                     originalUrl = link.originalURL,
                     shortPath = link.path,
