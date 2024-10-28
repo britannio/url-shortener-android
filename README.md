@@ -1,8 +1,11 @@
-# Url Shortener
+# URL Shortener app
 
-britann.io is my short url domain powered by short.io.
+A native Android front-end for britann.io, my personal url shortener powered by short.io.
 
+All features were implemented via [Aider](https://aider.chat) in ~3hrs at a cost of $3.43
+in Anthropic credits.
 
+![App Screenshot](https://raw.githubusercontent.com/britannio/url-shortener-android/main/public/screenshot.png)
 
 ## Features
 
@@ -18,6 +21,5 @@ britann.io is my short url domain powered by short.io.
 - [x] Show a loading indicator when any network request is in progress
 - [x] Tapping on a shortened url should copy it to the clipboard
 - [x] Use britann.io as the app bar title
-- [ ] If the clipboard contains a url when the app is launched, use it to prefill the text field (this isn't working)
-
-*Could*
+- [x] If the clipboard contains a url when the app is launched, use it to prefill the text field (this isn't working)
+- [x] The app bar color should match the status bar
