@@ -155,7 +155,8 @@ fun UrlItem(url: UrlData, onCopy: (String) -> Unit = {}) {
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp)
+                    .padding(vertical = 4.dp),  // Reduced from 8.dp to 4.dp
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)  // Added color
             )
             Text(
                 text = url.originalUrl,
