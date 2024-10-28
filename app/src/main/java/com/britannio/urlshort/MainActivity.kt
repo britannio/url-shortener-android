@@ -118,6 +118,26 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+fun UrlItem(url: UrlData, onCopy: (String) -> Unit = {}) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        onClick = { onCopy(url.shortenedUrl) }
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            Text(text = "Original: ${url.originalUrl}")
+            Text(text = "Shortened: ${url.shortenedUrl}")
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun UrlShortenerScreen(viewModel: UrlViewModel) {
     val urls by viewModel.urls.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
@@ -203,22 +223,3 @@ fun UrlShortenerScreen(viewModel: UrlViewModel) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun UrlItem(url: UrlData, onCopy: (String) -> Unit = {}) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        onClick = { onCopy(url.shortenedUrl) }
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-        ) {
-            Text(text = "Original: ${url.originalUrl}")
-            Text(text = "Shortened: ${url.shortenedUrl}")
-        }
-    }
-}
