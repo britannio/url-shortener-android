@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.os.Bundle
 import android.webkit.URLUtil
 import androidx.activity.ComponentActivity
@@ -62,9 +63,15 @@ class MainActivity : ComponentActivity() {
         val clip = clipboard.primaryClip
         if (clip != null && clip.itemCount > 0) {
             val text = clip.getItemAt(0).text?.toString()
+            Log.d("Clipboard", "Found text in clipboard: $text")
             if (text != null && URLUtil.isValidUrl(text)) {
+                Log.d("Clipboard", "Valid URL found in clipboard")
                 return text
+            } else {
+                Log.d("Clipboard", "Text in clipboard is not a valid URL")
             }
+        } else {
+            Log.d("Clipboard", "No text found in clipboard")
         }
         return null
     }
@@ -100,13 +107,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Check clipboard for URL and prefill if found
-        getUrlFromClipboard()?.let { url ->
-            viewModel.onUrlInputChange(url)
-        }
-
-        // Handle shared URLs
-        handleIntent()
 
         setContent {
             UrlshortTheme {
@@ -121,6 +121,14 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        // Check clipboard for URL and prefill if found
+        getUrlFromClipboard()?.let { url ->
+            viewModel.onUrlInputChange(url)
+        }
+
+        // Handle shared URLs
+        handleIntent()
     }
 }
 
