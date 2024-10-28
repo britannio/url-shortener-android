@@ -10,5 +10,6 @@ data class UrlData(
     val originalUrl: String,
     val shortPath: String,
     val shortenedUrl: String,
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    val updatedAt: String
 )

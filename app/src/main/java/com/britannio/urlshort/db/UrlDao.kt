@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UrlDao {
-    @Query("SELECT * FROM urldata ORDER BY createdAt DESC")
+    @Query("SELECT * FROM urldata ORDER BY updatedAt DESC")
     fun getAll(): Flow<List<UrlData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
